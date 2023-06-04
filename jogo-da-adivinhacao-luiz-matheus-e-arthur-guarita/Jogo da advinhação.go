@@ -9,6 +9,8 @@ import (
 const maxErrorsBeforeHint = 2
 
 var language string
+var round int
+var tentativasPorJogada []int
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
@@ -40,6 +42,7 @@ func playGame() {
 		answer := generateAnswer()
 		attempts := 0
 		errors := 0
+		round := 0
 
 		fmt.Println(getLocalizedString("guess_number"))
 
@@ -54,6 +57,7 @@ func playGame() {
 				fmt.Println(getLocalizedString("lower"))
 			} else {
 				fmt.Printf(getLocalizedString("congrats"), attempts)
+				tentativasPorJogada = append(tentativasPorJogada, attempts)
 				break
 			}
 
@@ -73,6 +77,14 @@ func playGame() {
 		fmt.Println("")
 		fmt.Println(getLocalizedString("play_again"))
 		if !playAgain() {
+			for _, at := range tentativasPorJogada {
+				round++
+				if language == "pt" {
+					fmt.Printf("Você utilizou %v tentativas no round %v\n", at, round)
+				} else if language == "en" {
+					fmt.Printf("You used %v attempts in round %v\n", at, round)
+				}
+			}
 			break
 		}
 	}
