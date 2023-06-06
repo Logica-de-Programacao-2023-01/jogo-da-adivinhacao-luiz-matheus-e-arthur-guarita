@@ -19,9 +19,10 @@ func main() {
 }
 
 func chooseLanguage() {
-	fmt.Println("Escolha o seu idioma (Choose a language):")
-	fmt.Println("1. Português (Portuguese)")
-	fmt.Println("2. English (Inglês)")
+	fmt.Println("Escolha o seu idioma (Choose a language/言語を選択してください):")
+	fmt.Println("1. Português (Portuguese/ポルトガル語)")
+	fmt.Println("2. English (Inglês/英語)")
+	fmt.Println("3. 日本 (Japonês/Japanese)")
 	var choice int
 	fmt.Scan(&choice)
 	fmt.Scanln() // Consumir o caractere de nova linha
@@ -31,6 +32,8 @@ func chooseLanguage() {
 		language = "pt"
 	case 2:
 		language = "en"
+	case 3:
+		language = "jp"
 	default:
 		fmt.Println("Escolha inválida. Escolhendo Português.")
 		language = "pt"
@@ -83,6 +86,8 @@ func playGame() {
 					fmt.Printf("Você utilizou %v tentativas no round %v\n", at, round)
 				} else if language == "en" {
 					fmt.Printf("You used %v attempts in round %v\n", at, round)
+				} else if language == "jp" {
+					fmt.Printf("ラウンド %v で %v トライを使用しました\n", round, at)
 				}
 			}
 			break
@@ -113,6 +118,8 @@ func playAgain() bool {
 		return playAgain == "s" || playAgain == "S"
 	} else if language == "en" {
 		return playAgain == "y" || playAgain == "Y"
+	} else if language == "jp" {
+		return playAgain == "h" || playAgain == "H"
 	} else {
 		return false
 	}
@@ -165,6 +172,30 @@ func getLocalizedString(key string) string {
 			return "Número inválido. Tente novamente."
 		case "play_again":
 			return "Jogar novamente? (s/n)"
+		default:
+			return ""
+		}
+	case "jp":
+		// Japanese strings
+		switch key {
+		case "guess_number":
+			return "1から100までの数字を推測してください:"
+		case "higher":
+			return "もっと大きいです!"
+		case "lower":
+			return "もっと小さいです!"
+		case "congrats":
+			return "おめでとうございます！%d回で正解しました。"
+		case "hint_divisible_by_2":
+			return "ヒント：その数字は2で割り切れます。"
+		case "hint_multiple_of_3":
+			return "ヒント：その数字は3の倍数です。"
+		case "hint_not_divisible_by_2_or_multiple_of_3":
+			return "ヒント：その数字は2で割り切れず、かつ3の倍数でもありません。"
+		case "invalid_number":
+			return "無効な数字です。もう一度やり直してください。"
+		case "play_again":
+			return "もう一度プレイしますか？ (h/i)"
 		default:
 			return ""
 		}
