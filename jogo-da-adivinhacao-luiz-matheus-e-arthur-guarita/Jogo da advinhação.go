@@ -11,6 +11,7 @@ const maxErrorsBeforeHint = 2
 var language string
 var round int
 var tentativasPorJogada []int
+var somaTentativas int
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
@@ -81,6 +82,7 @@ func playGame() {
 		fmt.Println(getLocalizedString("play_again"))
 		if !playAgain() {
 			for _, at := range tentativasPorJogada {
+				somaTentativas += at
 				round++
 				if language == "pt" {
 					fmt.Printf("Você utilizou %v tentativas no round %v\n", at, round)
@@ -89,6 +91,13 @@ func playGame() {
 				} else if language == "jp" {
 					fmt.Printf("ラウンド %v で %v トライを使用しました\n", round, at)
 				}
+			}
+			if language == "pt" {
+				fmt.Printf("O total de tentativas foi: %v", somaTentativas)
+			} else if language == "en" {
+				fmt.Printf("The total number of attempts is: %v", somaTentativas)
+			} else if language == "jp" {
+				fmt.Printf("合計試行回数は %v 回です", somaTentativas)
 			}
 			break
 		}
